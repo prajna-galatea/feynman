@@ -35,19 +35,19 @@ export function readPromptSpecs(appRoot) {
 }
 
 export const extensionCommandSpecs = [
-	{ name: "capabilities", args: "", section: "Project & Session", description: "Show installed packages, discovery entrypoints, and runtime capability counts.", publicDocs: true },
-	{ name: "commands", args: "", section: "Project & Session", description: "Browse all available slash commands, including built-in and package commands.", publicDocs: true },
-	{ name: "help", args: "", section: "Project & Session", description: "Show grouped Feynman commands and prefill the editor with a selected command.", publicDocs: true },
-	{ name: "feynman-model", args: "", section: "Project & Session", description: "Open Feynman model menu (main + per-subagent overrides).", publicDocs: true },
-	{ name: "init", args: "", section: "Project & Session", description: "Bootstrap AGENTS.md and session-log folders for a research project.", publicDocs: true },
-	{ name: "outputs", args: "", section: "Project & Session", description: "Browse all research artifacts (papers, outputs, experiments, notes).", publicDocs: true },
-	{ name: "service-tier", args: "", section: "Project & Session", description: "View or set the provider service tier override for supported models.", publicDocs: true },
-	{ name: "tools", args: "", section: "Project & Session", description: "Browse all callable tools with their source and parameter summary.", publicDocs: true },
+	{ name: "capabilities", args: "", section: "專案與會話", description: "顯示已安裝套件、發現入口與執行時的能力計數。", publicDocs: true },
+	{ name: "commands", args: "", section: "專案與會話", description: "瀏覽所有可用的斜線指令（內建與套件）。", publicDocs: true },
+	{ name: "help", args: "", section: "專案與會話", description: "以分組方式顯示 Feynman 指令，並在編輯器預填所選指令。", publicDocs: true },
+	{ name: "feynman-model", args: "", section: "專案與會話", description: "開啟 Feynman 模型選單（主模型 + 各子代理覆寫）。", publicDocs: true },
+	{ name: "init", args: "", section: "專案與會話", description: "為研究專案初始化 AGENTS.md 與會話日誌資料夾。", publicDocs: true },
+	{ name: "outputs", args: "", section: "專案與會話", description: "瀏覽所有研究產出（papers、outputs、experiments、notes）。", publicDocs: true },
+	{ name: "service-tier", args: "", section: "專案與會話", description: "檢視或設定支援模型的服務層級（service tier）覆寫值。", publicDocs: true },
+	{ name: "tools", args: "", section: "專案與會話", description: "瀏覽所有可呼叫工具與其來源、參數摘要。", publicDocs: true },
 ];
 
 export const livePackageCommandGroups = [
 	{
-		title: "Agents & Delegation",
+		title: "代理與委派",
 		commands: [
 			{ name: "agents", usage: "/agents" },
 			{ name: "run", usage: "/run <agent> <task>" },
@@ -56,7 +56,7 @@ export const livePackageCommandGroups = [
 		],
 	},
 	{
-		title: "Bundled Package Commands",
+		title: "內建套件指令",
 		commands: [
 			{ name: "ps", usage: "/ps" },
 			{ name: "schedule-prompt", usage: "/schedule-prompt" },
@@ -72,61 +72,61 @@ export const livePackageCommandGroups = [
 
 export const cliCommandSections = [
 	{
-		title: "Core",
+		title: "核心",
 		commands: [
-			{ usage: "feynman", description: "Launch the interactive REPL." },
-			{ usage: "feynman chat [prompt]", description: "Start chat explicitly, optionally with an initial prompt." },
-			{ usage: "feynman help", description: "Show CLI help." },
-			{ usage: "feynman setup", description: "Run the guided setup wizard." },
-			{ usage: "feynman setup preview", description: "Install or verify preview dependencies." },
-			{ usage: "feynman doctor", description: "Diagnose config, auth, Pi runtime, and preview dependencies." },
-			{ usage: "feynman status", description: "Show the current setup summary." },
+			{ usage: "feynman", description: "啟動互動式 REPL。" },
+			{ usage: "feynman chat [prompt]", description: "明確啟動對話，可選擇附上初始提示詞。" },
+			{ usage: "feynman help", description: "顯示 CLI 使用說明。" },
+			{ usage: "feynman setup", description: "執行引導式設定精靈。" },
+			{ usage: "feynman setup preview", description: "安裝或驗證預覽功能所需的相依套件。" },
+			{ usage: "feynman doctor", description: "診斷設定、認證、Pi 執行環境與預覽相依套件。" },
+			{ usage: "feynman status", description: "顯示目前設定摘要。" },
 		],
 	},
 	{
-		title: "Model Management",
+		title: "模型管理",
 		commands: [
-			{ usage: "feynman model list", description: "List available models in Pi auth storage." },
-			{ usage: "feynman model login [id]", description: "Authenticate a model provider with OAuth or API-key setup." },
-			{ usage: "feynman model logout [id]", description: "Clear stored auth for a model provider." },
-			{ usage: "feynman model set <provider/model>", description: "Set the default model (also accepts provider:model)." },
-			{ usage: "feynman model tier [value]", description: "View or set the request service tier override." },
+			{ usage: "feynman model list", description: "列出 Pi 認證存放處中可用的模型。" },
+			{ usage: "feynman model login [id]", description: "以 OAuth 或 API 金鑰設定方式登入模型供應商。" },
+			{ usage: "feynman model logout [id]", description: "清除已儲存的模型供應商認證。" },
+			{ usage: "feynman model set <provider/model>", description: "設定預設模型（亦接受 provider:model 格式）。" },
+			{ usage: "feynman model tier [value]", description: "檢視或設定請求服務層級覆寫值。" },
 		],
 	},
 	{
 		title: "AlphaXiv",
 		commands: [
-			{ usage: "feynman alpha login", description: "Sign in to alphaXiv." },
-			{ usage: "feynman alpha logout", description: "Clear alphaXiv auth." },
-			{ usage: "feynman alpha status", description: "Check alphaXiv auth status." },
+			{ usage: "feynman alpha login", description: "登入 alphaXiv。" },
+			{ usage: "feynman alpha logout", description: "清除 alphaXiv 認證。" },
+			{ usage: "feynman alpha status", description: "檢查 alphaXiv 認證狀態。" },
 		],
 	},
 	{
-		title: "Utilities",
+		title: "工具",
 		commands: [
-			{ usage: "feynman packages list", description: "Show core and optional Pi package presets." },
-			{ usage: "feynman packages install <preset>", description: "Install optional package presets on demand." },
-			{ usage: "feynman search status", description: "Show Pi web-access status and config path." },
-			{ usage: "feynman search set <provider> [api-key]", description: "Set the web search provider and optionally save its API key." },
-			{ usage: "feynman search clear", description: "Reset web search provider to auto while preserving API keys." },
-			{ usage: "feynman update [package]", description: "Update installed packages, or a specific package." },
+			{ usage: "feynman packages list", description: "顯示核心與可選 Pi 套件預設組合。" },
+			{ usage: "feynman packages install <preset>", description: "依需求安裝可選套件預設組合。" },
+			{ usage: "feynman search status", description: "顯示 Pi 網路存取狀態與設定檔路徑。" },
+			{ usage: "feynman search set <provider> [api-key]", description: "設定網路搜尋供應商，並可選擇儲存 API 金鑰。" },
+			{ usage: "feynman search clear", description: "將網路搜尋供應商重設為 auto，保留既有 API 金鑰。" },
+			{ usage: "feynman update [package]", description: "更新已安裝的所有套件或指定套件。" },
 		],
 	},
 ];
 
 export const legacyFlags = [
-	{ usage: '--prompt "<text>"', description: "Run one prompt and exit." },
-	{ usage: "--alpha-login", description: "Sign in to alphaXiv and exit." },
-	{ usage: "--alpha-logout", description: "Clear alphaXiv auth and exit." },
-	{ usage: "--alpha-status", description: "Show alphaXiv auth status and exit." },
-	{ usage: "--model <provider/model|provider:model>", description: "Force a specific model." },
-	{ usage: "--service-tier <tier>", description: "Override request service tier for this run." },
-	{ usage: "--thinking <level>", description: "Set thinking level: off | minimal | low | medium | high | xhigh." },
-	{ usage: "--cwd <path>", description: "Set the working directory for tools." },
-	{ usage: "--session-dir <path>", description: "Set the session storage directory." },
-	{ usage: "--new-session", description: "Start a new persisted session." },
-	{ usage: "--doctor", description: "Alias for `feynman doctor`." },
-	{ usage: "--setup-preview", description: "Alias for `feynman setup preview`." },
+	{ usage: '--prompt "<text>"', description: "執行單次提示詞後結束。" },
+	{ usage: "--alpha-login", description: "登入 alphaXiv 後結束。" },
+	{ usage: "--alpha-logout", description: "清除 alphaXiv 認證後結束。" },
+	{ usage: "--alpha-status", description: "顯示 alphaXiv 認證狀態後結束。" },
+	{ usage: "--model <provider/model|provider:model>", description: "強制指定使用的模型。" },
+	{ usage: "--service-tier <tier>", description: "本次執行覆寫請求服務層級。" },
+	{ usage: "--thinking <level>", description: "設定思考強度：off | minimal | low | medium | high | xhigh。" },
+	{ usage: "--cwd <path>", description: "設定工具的工作目錄。" },
+	{ usage: "--session-dir <path>", description: "設定會話儲存目錄。" },
+	{ usage: "--new-session", description: "啟動新的持久化會話。" },
+	{ usage: "--doctor", description: "等同 `feynman doctor`。" },
+	{ usage: "--setup-preview", description: "等同 `feynman setup preview`。" },
 ];
 
 export const topLevelCommandNames = ["alpha", "chat", "doctor", "help", "model", "packages", "search", "setup", "status", "update"];

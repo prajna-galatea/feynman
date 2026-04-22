@@ -10,7 +10,7 @@ import {
 } from "@clack/prompts";
 
 export class SetupCancelledError extends Error {
-	constructor(message = "setup cancelled") {
+	constructor(message = "已取消設定") {
 		super(message);
 		this.name = "SetupCancelledError";
 	}
@@ -24,7 +24,7 @@ export type PromptSelectOption<T = string> = {
 
 function ensureInteractiveTerminal(): void {
 	if (!process.stdin.isTTY || !process.stdout.isTTY) {
-		throw new Error("feynman setup requires an interactive terminal.");
+		throw new Error("feynman setup 需要互動式終端機。");
 	}
 }
 

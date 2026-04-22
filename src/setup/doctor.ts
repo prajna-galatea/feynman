@@ -97,34 +97,34 @@ export function collectStatusSnapshot(options: DoctorOptions): FeynmanStatusSnap
 
 export function runStatus(options: DoctorOptions): void {
 	const snapshot = collectStatusSnapshot(options);
-	printPanel("Feynman Status", [
-		"Current setup summary for the research shell.",
+	printPanel("Feynman 狀態", [
+		"研究殼層目前的設定摘要。",
 	]);
-	printSection("Core");
-	printInfo(`Model: ${snapshot.model ?? "not configured"}`);
-	printInfo(`Model valid: ${snapshot.modelValid ? "yes" : "no"}`);
-	printInfo(`Authenticated models: ${snapshot.authenticatedModelCount}`);
-	printInfo(`Authenticated providers: ${snapshot.authenticatedProviderCount}`);
-	printInfo(`Recommended model: ${snapshot.recommendedModel ?? "not available"}`);
-	printInfo(`alphaXiv: ${snapshot.alphaLoggedIn ? snapshot.alphaUser ?? "configured" : "not configured"}`);
-	printInfo(`Web access: pi-web-access (${snapshot.webRouteLabel})`);
-	printInfo(`Service tier: ${getConfiguredServiceTier(options.settingsPath) ?? "not set"}`);
-	printInfo(`Preview: ${snapshot.previewConfigured ? "configured" : "not configured"}`);
+	printSection("核心");
+	printInfo(`模型：${snapshot.model ?? "尚未設定"}`);
+	printInfo(`模型有效：${snapshot.modelValid ? "是" : "否"}`);
+	printInfo(`已認證模型數：${snapshot.authenticatedModelCount}`);
+	printInfo(`已認證供應商數：${snapshot.authenticatedProviderCount}`);
+	printInfo(`建議模型：${snapshot.recommendedModel ?? "無可用建議"}`);
+	printInfo(`alphaXiv：${snapshot.alphaLoggedIn ? snapshot.alphaUser ?? "已設定" : "尚未設定"}`);
+	printInfo(`網路存取：pi-web-access（${snapshot.webRouteLabel}）`);
+	printInfo(`服務層級：${getConfiguredServiceTier(options.settingsPath) ?? "尚未設定"}`);
+	printInfo(`預覽：${snapshot.previewConfigured ? "已設定" : "尚未設定"}`);
 
-	printSection("Paths");
-	printInfo(`Sessions: ${snapshot.sessionDir}`);
+	printSection("路徑");
+	printInfo(`會話：${snapshot.sessionDir}`);
 
-	printSection("Runtime");
-	printInfo(`Pi runtime: ${snapshot.piReady ? "ready" : "missing files"}`);
-	printInfo(`Pandoc: ${snapshot.pandocReady ? "ready" : "missing"}`);
-	printInfo(`Browser preview: ${snapshot.browserReady ? "ready" : "missing"}`);
+	printSection("執行環境");
+	printInfo(`Pi 執行環境：${snapshot.piReady ? "就緒" : "檔案缺失"}`);
+	printInfo(`Pandoc：${snapshot.pandocReady ? "就緒" : "缺失"}`);
+	printInfo(`瀏覽器預覽：${snapshot.browserReady ? "就緒" : "缺失"}`);
 	if (snapshot.missingPiBits.length > 0) {
 		for (const entry of snapshot.missingPiBits) {
-			printInfo(`  missing: ${entry}`);
+			printInfo(`  缺失：${entry}`);
 		}
 	}
 	if (snapshot.modelGuidance.length > 0) {
-		printSection("Next Steps");
+		printSection("建議後續步驟");
 		for (const line of snapshot.modelGuidance) {
 			printInfo(line);
 		}
@@ -140,71 +140,71 @@ export function runDoctor(options: DoctorOptions): void {
 	const browserPath = process.env.PUPPETEER_EXECUTABLE_PATH ?? resolveExecutable("google-chrome", BROWSER_FALLBACK_PATHS);
 	const missingPiBits = validatePiInstallation(options.appRoot);
 
-	printPanel("Feynman Doctor", [
-		"Checks config, auth, runtime wiring, and preview dependencies.",
+	printPanel("Feynman 健檢", [
+		"檢查設定、認證、執行環境佈線與預覽相依套件。",
 	]);
-	console.log(`working dir: ${options.workingDir}`);
-	console.log(`session dir: ${options.sessionDir}`);
+	console.log(`工作目錄：${options.workingDir}`);
+	console.log(`會話目錄：${options.sessionDir}`);
 	console.log("");
-	console.log(`alphaXiv auth: ${isAlphaLoggedIn() ? "ok" : "missing"}`);
+	console.log(`alphaXiv 認證：${isAlphaLoggedIn() ? "正常" : "缺失"}`);
 	if (isAlphaLoggedIn()) {
 		const name = getAlphaUserName();
 		if (name) {
-			console.log(`  user: ${name}`);
+			console.log(`  使用者：${name}`);
 		}
 	}
-	console.log(`supported models: ${supportedModels.length}`);
+	console.log(`支援的模型數：${supportedModels.length}`);
 	if (modelStatus.availableModels.length > 0) {
 		const sample = modelStatus.availableModels
 			.slice(0, 6)
 			.join(", ");
-		console.log(`  authenticated sample: ${sample}`);
+		console.log(`  已認證示例：${sample}`);
 	}
 	console.log(
-		`default model: ${typeof settings.defaultProvider === "string" && typeof settings.defaultModel === "string"
+		`預設模型：${typeof settings.defaultProvider === "string" && typeof settings.defaultModel === "string"
 			? `${settings.defaultProvider}/${settings.defaultModel}`
-			: "not set"}`,
+			: "尚未設定"}`,
 	);
-	console.log(`default model valid: ${modelStatus.modelValid ? "yes" : "no"}`);
-	console.log(`authenticated providers: ${modelStatus.authenticatedProviderCount}`);
-	console.log(`authenticated models: ${modelStatus.authenticatedModelCount}`);
-	console.log(`service tier: ${getConfiguredServiceTier(options.settingsPath) ?? "not set"}`);
-	console.log(`recommended model: ${modelStatus.recommendedModel ?? "not available"}`);
+	console.log(`預設模型有效：${modelStatus.modelValid ? "是" : "否"}`);
+	console.log(`已認證供應商：${modelStatus.authenticatedProviderCount}`);
+	console.log(`已認證模型：${modelStatus.authenticatedModelCount}`);
+	console.log(`服務層級：${getConfiguredServiceTier(options.settingsPath) ?? "尚未設定"}`);
+	console.log(`建議模型：${modelStatus.recommendedModel ?? "無可用建議"}`);
 	if (modelStatus.recommendedModelReason) {
-		console.log(`  why: ${modelStatus.recommendedModelReason}`);
+		console.log(`  原因：${modelStatus.recommendedModelReason}`);
 	}
 	const modelsError = modelRegistry.getError();
 	if (modelsError) {
-		console.log("models.json: error");
+		console.log("models.json：錯誤");
 		for (const line of modelsError.split("\n")) {
 			console.log(`  ${line}`);
 		}
 	} else {
 		const modelsJsonPath = getModelsJsonPath(options.authPath);
-		console.log(`models.json: ${modelsJsonPath}`);
+		console.log(`models.json：${modelsJsonPath}`);
 		const missingApiKeyProviders = findProvidersMissingApiKey(modelsJsonPath);
 		if (missingApiKeyProviders.length > 0) {
-			console.log(`  warning: provider(s) missing apiKey: ${missingApiKeyProviders.join(", ")}`);
-			console.log("  note: custom providers with a models[] list need apiKey in models.json to be available.");
+			console.log(`  警告：下列供應商缺少 apiKey：${missingApiKeyProviders.join(", ")}`);
+			console.log("  備註：自訂供應商若設有 models[] 清單，則 models.json 中須填入 apiKey 才能使用。");
 		}
 	}
-	console.log(`pandoc: ${pandocPath ?? "missing"}`);
-	console.log(`browser preview runtime: ${browserPath ?? "missing"}`);
+	console.log(`pandoc：${pandocPath ?? "缺失"}`);
+	console.log(`瀏覽器預覽執行環境：${browserPath ?? "缺失"}`);
 	for (const line of formatPiWebAccessDoctorLines()) {
 		console.log(line);
 	}
-	console.log(`quiet startup: ${settings.quietStartup === true ? "enabled" : "disabled"}`);
-	console.log(`theme: ${typeof settings.theme === "string" ? settings.theme : "not set"}`);
+	console.log(`靜默啟動：${settings.quietStartup === true ? "啟用" : "停用"}`);
+	console.log(`主題：${typeof settings.theme === "string" ? settings.theme : "尚未設定"}`);
 	if (missingPiBits.length > 0) {
-		console.log("pi runtime: missing files");
+		console.log("pi 執行環境：檔案缺失");
 		for (const entry of missingPiBits) {
 			console.log(`  ${entry}`);
 		}
 	} else {
-		console.log("pi runtime: ok");
+		console.log("pi 執行環境：正常");
 	}
 	for (const line of modelStatus.modelGuidance) {
-		console.log(`next step: ${line}`);
+		console.log(`後續步驟：${line}`);
 	}
-	console.log("setup hint: feynman setup");
+	console.log("設定建議：feynman setup");
 }

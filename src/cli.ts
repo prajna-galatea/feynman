@@ -68,36 +68,36 @@ function printHelp(appRoot: string): void {
 	);
 
 	printAsciiHeader([
-		"Research-first agent shell built on Pi.",
-		"Use `feynman setup` first if this is a new machine.",
+		"以 Pi 為基礎的研究優先代理殼層。",
+		"若是新機器，請先執行 `feynman setup`。",
 	]);
 
-	printSection("Getting Started");
+	printSection("快速開始");
 	printInfo("feynman");
 	printInfo("feynman setup");
 	printInfo("feynman doctor");
 	printInfo("feynman model");
 	printInfo("feynman search status");
 
-	printSection("Commands");
+	printSection("指令");
 	for (const section of cliCommandSections) {
 		for (const command of section.commands) {
 			printHelpLine(command.usage, command.description);
 		}
 	}
 
-	printSection("Research Workflows");
+	printSection("研究工作流程");
 	for (const command of workflowCommands) {
 		printHelpLine(formatCliWorkflowUsage(command), command.description);
 	}
 
-	printSection("Legacy Flags");
+	printSection("相容旗標");
 	for (const flag of legacyFlags) {
 		printHelpLine(flag.usage, flag.description);
 	}
 
 	printSection("REPL");
-	printInfo("Inside the REPL, slash workflows come from the live prompt-template and extension command set.");
+	printInfo("於 REPL 中，斜線工作流程來自目前載入的 prompt 範本與延伸套件指令集。");
 }
 
 async function handleAlphaCommand(action: string | undefined): Promise<void> {
@@ -110,27 +110,27 @@ async function handleAlphaCommand(action: string | undefined): Promise<void> {
 			typeof result.userInfo.name === "string"
 				? result.userInfo.name
 				: getAlphaUserName();
-		console.log(name ? `alphaXiv login complete: ${name}` : "alphaXiv login complete");
+		console.log(name ? `alphaXiv 登入完成：${name}` : "alphaXiv 登入完成");
 		return;
 	}
 
 	if (action === "logout") {
 		logoutAlpha();
-		console.log("alphaXiv auth cleared");
+		console.log("已清除 alphaXiv 認證");
 		return;
 	}
 
 	if (!action || action === "status") {
 		if (isAlphaLoggedIn()) {
 			const name = getAlphaUserName();
-			console.log(name ? `alphaXiv logged in as ${name}` : "alphaXiv logged in");
+			console.log(name ? `alphaXiv 已登入為 ${name}` : "alphaXiv 已登入");
 		} else {
-			console.log("alphaXiv not logged in");
+			console.log("alphaXiv 尚未登入");
 		}
 		return;
 	}
 
-	throw new Error(`Unknown alpha command: ${action}`);
+	throw new Error(`未知的 alpha 子指令：${action}`);
 }
 
 async function handleModelCommand(subcommand: string | undefined, args: string[], feynmanSettingsPath: string, feynmanAuthPath: string): Promise<void> {
@@ -158,7 +158,7 @@ async function handleModelCommand(subcommand: string | undefined, args: string[]
 	if (subcommand === "set") {
 		const spec = args[0];
 		if (!spec) {
-			throw new Error("Usage: feynman model set <provider/model|provider:model>");
+			throw new Error("用法：feynman model set <provider/model|provider:model>");
 		}
 		setDefaultModelSpec(feynmanSettingsPath, feynmanAuthPath, spec);
 		return;
@@ -167,27 +167,27 @@ async function handleModelCommand(subcommand: string | undefined, args: string[]
 	if (subcommand === "tier") {
 		const requested = args[0];
 		if (!requested) {
-			console.log(getConfiguredServiceTier(feynmanSettingsPath) ?? "not set");
+			console.log(getConfiguredServiceTier(feynmanSettingsPath) ?? "尚未設定");
 			return;
 		}
 
 		if (requested === "unset" || requested === "clear" || requested === "off") {
 			setConfiguredServiceTier(feynmanSettingsPath, undefined);
-			console.log("Cleared service tier override");
+			console.log("已清除服務層級覆寫");
 			return;
 		}
 
 		const tier = normalizeServiceTier(requested);
 		if (!tier) {
-			throw new Error("Usage: feynman model tier <auto|default|flex|priority|standard_only|unset>");
+			throw new Error("用法：feynman model tier <auto|default|flex|priority|standard_only|unset>");
 		}
 
 		setConfiguredServiceTier(feynmanSettingsPath, tier);
-		console.log(`Service tier set to ${tier}`);
+		console.log(`服務層級已設為 ${tier}`);
 		return;
 	}
 
-	throw new Error(`Unknown model command: ${subcommand}`);
+	throw new Error(`未知的 model 子指令：${subcommand}`);
 }
 
 async function handleUpdateCommand(workingDir: string, feynmanAgentDir: string, source?: string): Promise<void> {
@@ -202,27 +202,27 @@ async function handleUpdateCommand(workingDir: string, feynmanAgentDir: string, 
 		const skipped = results.flatMap((result) => result.skipped);
 
 		if (updated.length === 0) {
-			console.log("All packages up to date.");
+			console.log("所有套件皆為最新版本。");
 			return;
 		}
 
 		for (const updatedSource of updated) {
-			console.log(`Updated ${updatedSource}`);
+			console.log(`已更新 ${updatedSource}`);
 		}
 		for (const skippedSource of skipped) {
-			console.log(`Skipped ${skippedSource} on Node ${process.versions.node} (native packages are only supported through Node ${MAX_NATIVE_PACKAGE_NODE_MAJOR}.x).`);
+			console.log(`於 Node ${process.versions.node} 略過 ${skippedSource}（原生套件僅支援至 Node ${MAX_NATIVE_PACKAGE_NODE_MAJOR}.x）。`);
 		}
-		console.log("All packages up to date.");
+		console.log("所有套件皆為最新版本。");
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
 		if (message.includes("No supported package manager found")) {
-			console.log("No package manager is available for live package updates.");
-			console.log("If you installed the standalone app, rerun the installer to get newer bundled packages.");
+			console.log("目前沒有可用的套件管理工具，無法即時更新套件。");
+			console.log("若是使用 standalone 應用程式，請重新執行安裝程式以取得較新的內建套件。");
 			return;
 		}
 		if (message.includes("Installing pi-generative-ui failed")) {
 			console.log(message);
-			console.log("Skipped optional generative-ui update.");
+			console.log("已略過可選的 generative-ui 更新。");
 			return;
 		}
 
@@ -241,101 +241,101 @@ async function handlePackagesCommand(subcommand: string | undefined, args: strin
 	);
 
 	if (!subcommand || subcommand === "list") {
-		printPanel("Feynman Packages", [
-			"Core packages are installed by default to keep first-run setup fast.",
+		printPanel("Feynman 套件", [
+			"核心套件會預設安裝，以加快首次啟動速度。",
 		]);
-		printSection("Core");
+		printSection("核心");
 		for (const source of CORE_PACKAGE_SOURCES) {
 			printInfo(source);
 		}
-		printSection("Optional");
+		printSection("可選");
 		const optionalPresets = listOptionalPackagePresets();
 		if (optionalPresets.length === 0) {
-			printInfo(`No optional package presets are available on ${process.platform}.`);
-			printInfo("Core packages already include memory and session search.");
+			printInfo(`${process.platform} 平台上無可用的可選套件組合。`);
+			printInfo("核心套件已包含記憶體與會話搜尋功能。");
 			return;
 		}
 		for (const preset of optionalPresets) {
 			const installed = preset.sources.every((source) => configuredSources.has(source));
-			printInfo(`${preset.name}${installed ? " (installed)" : ""}  ${preset.description}`);
+			printInfo(`${preset.name}${installed ? "（已安裝）" : ""}  ${preset.description}`);
 		}
-		printInfo(`Install with: feynman packages install <${listOptionalPackagePresetInstallTargets().join("|")}>`);
+		printInfo(`安裝方式：feynman packages install <${listOptionalPackagePresetInstallTargets().join("|")}>`);
 		return;
 	}
 
 	if (subcommand !== "install") {
-		throw new Error(`Unknown packages command: ${subcommand}`);
+		throw new Error(`未知的 packages 子指令：${subcommand}`);
 	}
 
 	const target = args[0];
 	if (!target) {
 		const installTargets = listOptionalPackagePresetInstallTargets();
 		if (installTargets.length === 0) {
-			throw new Error(`No optional package presets are available on ${process.platform}. Core packages already include memory and session search.`);
+			throw new Error(`${process.platform} 平台上無可用的可選套件組合。核心套件已包含記憶體與會話搜尋功能。`);
 		}
-		throw new Error(`Usage: feynman packages install <${installTargets.join("|")}>`);
+		throw new Error(`用法：feynman packages install <${installTargets.join("|")}>`);
 	}
 
 	const sources = getOptionalPackagePresetSources(target);
 	if (!sources) {
 		const normalizedPreset = normalizeOptionalPackagePresetName(target);
 		if (normalizedPreset === "all-extras") {
-			console.log(`No optional package presets are available on ${process.platform}.`);
-			console.log("Core packages already include memory and session search.");
+			console.log(`${process.platform} 平台上無可用的可選套件組合。`);
+			console.log("核心套件已包含記憶體與會話搜尋功能。");
 			return;
 		}
 		if (normalizedPreset && !isOptionalPackagePresetSupported(normalizedPreset)) {
-			console.log(`${normalizedPreset} is not available on ${process.platform}.`);
+			console.log(`${normalizedPreset} 在 ${process.platform} 平台上無法使用。`);
 			if (normalizedPreset === "generative-ui") {
-				console.log("The upstream pi-generative-ui package currently supports macOS only.");
+				console.log("上游 pi-generative-ui 套件目前僅支援 macOS。");
 			}
 			return;
 		}
 		if (target === "memory" || target === "session-search") {
-			console.log(`${target} is installed by default as a core package.`);
+			console.log(`${target} 已作為核心套件預設安裝。`);
 			return;
 		}
-		throw new Error(`Unknown package preset: ${target}`);
+		throw new Error(`未知的套件組合：${target}`);
 	}
 
 	const appRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 	const isStandaloneBundle = !existsSync(resolve(appRoot, ".feynman", "runtime-workspace.tgz")) && existsSync(resolve(appRoot, ".feynman", "npm"));
 	if (target === "generative-ui" && process.platform === "darwin" && isStandaloneBundle) {
-		console.log("The generative-ui preset is currently unavailable in the standalone macOS bundle.");
-		console.log("Its native glimpseui dependency fails to compile reliably in that environment.");
-		console.log("If you need generative-ui, install Feynman through npm instead of the standalone bundle.");
+		console.log("generative-ui 組合目前於 standalone macOS bundle 中無法使用。");
+		console.log("其所依賴的原生 glimpseui 在該環境中無法穩定編譯。");
+		console.log("若需要 generative-ui，請透過 npm 安裝 Feynman 而非使用 standalone bundle。");
 		return;
 	}
 
 	const pendingSources = sources.filter((source) => !configuredSources.has(source));
 	for (const source of sources) {
 		if (configuredSources.has(source)) {
-			console.log(`${source} already installed`);
+			console.log(`${source} 已安裝`);
 		}
 	}
 
 	if (pendingSources.length === 0) {
-		console.log("Optional packages installed.");
+		console.log("可選套件安裝完成。");
 		return;
 	}
 
 	try {
 		const result = await installPackageSources(workingDir, feynmanAgentDir, pendingSources, { persist: true });
 		for (const skippedSource of result.skipped) {
-			console.log(`Skipped ${skippedSource} on Node ${process.versions.node} (native packages are only supported through Node ${MAX_NATIVE_PACKAGE_NODE_MAJOR}.x).`);
+			console.log(`於 Node ${process.versions.node} 略過 ${skippedSource}（原生套件僅支援至 Node ${MAX_NATIVE_PACKAGE_NODE_MAJOR}.x）。`);
 		}
 		await settingsManager.flush();
-		console.log("Optional packages installed.");
+		console.log("可選套件安裝完成。");
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
 		if (message.includes("No supported package manager found")) {
-			console.log("No package manager is available for optional package installs.");
-			console.log("Install npm, pnpm, or bun, or rerun the standalone installer for bundled package updates.");
+			console.log("目前沒有可用的套件管理工具，無法安裝可選套件。");
+			console.log("請安裝 npm、pnpm 或 bun，或重新執行 standalone 安裝程式以更新內建套件。");
 			return;
 		}
 		if (message.includes("Installing pi-generative-ui failed")) {
 			console.log(message);
-			console.log("Skipped optional generative-ui install.");
+			console.log("已略過可選的 generative-ui 安裝。");
 			return;
 		}
 
@@ -353,7 +353,7 @@ function handleSearchCommand(subcommand: string | undefined, args: string[]): vo
 		const provider = args[0] as PiWebSearchProvider | undefined;
 		const validProviders: PiWebSearchProvider[] = ["auto", "perplexity", "exa", "gemini"];
 		if (!provider || !validProviders.includes(provider)) {
-			throw new Error("Usage: feynman search set <auto|perplexity|exa|gemini> [api-key]");
+			throw new Error("用法：feynman search set <auto|perplexity|exa|gemini> [api-key]");
 		}
 		setSearchProvider(provider, args[1]);
 		return;
@@ -364,7 +364,7 @@ function handleSearchCommand(subcommand: string | undefined, args: string[]): vo
 		return;
 	}
 
-	throw new Error(`Unknown search command: ${subcommand}`);
+	throw new Error(`未知的 search 子指令：${subcommand}`);
 }
 
 function loadPackageVersion(appRoot: string): { version?: string } {
@@ -510,7 +510,7 @@ export async function main(): Promise<void> {
 			console.log(feynmanVersion);
 			return;
 		}
-		throw new Error("Unable to determine the installed Feynman version.");
+		throw new Error("無法判斷目前安裝的 Feynman 版本。");
 	}
 
 	const workingDir = resolve(values.cwd ?? process.cwd());
@@ -566,7 +566,7 @@ export async function main(): Promise<void> {
 			return;
 		}
 		if (rest[0]) {
-			throw new Error(`Unknown setup command: ${rest[0]}`);
+			throw new Error(`未知的 setup 子指令：${rest[0]}`);
 		}
 		await runSetup({
 			settingsPath: feynmanSettingsPath,
@@ -631,10 +631,10 @@ export async function main(): Promise<void> {
 	const explicitServiceTier = normalizeServiceTier(values["service-tier"] ?? process.env.FEYNMAN_SERVICE_TIER);
 	const mode = values.mode;
 	if (mode !== undefined && mode !== "text" && mode !== "json" && mode !== "rpc") {
-		throw new Error("Unknown mode. Use text, json, or rpc.");
+		throw new Error("未知的模式。請使用 text、json 或 rpc。");
 	}
 	if ((values["service-tier"] ?? process.env.FEYNMAN_SERVICE_TIER) && !explicitServiceTier) {
-		throw new Error("Unknown service tier. Use auto, default, flex, priority, or standard_only.");
+		throw new Error("未知的服務層級。請使用 auto、default、flex、priority 或 standard_only。");
 	}
 	if (explicitServiceTier) {
 		process.env.FEYNMAN_SERVICE_TIER = explicitServiceTier;
@@ -643,7 +643,7 @@ export async function main(): Promise<void> {
 		const modelRegistry = createModelRegistry(feynmanAuthPath);
 		const explicitModel = parseModelSpec(explicitModelSpec, modelRegistry);
 		if (!explicitModel) {
-			throw new Error(`Unknown model: ${explicitModelSpec}`);
+			throw new Error(`未知的模型：${explicitModelSpec}`);
 		}
 	}
 

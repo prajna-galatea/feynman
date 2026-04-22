@@ -10,7 +10,7 @@ export type PreviewSetupResult =
 export function setupPreviewDependencies(): PreviewSetupResult {
 	const pandocPath = resolveExecutable("pandoc", PANDOC_FALLBACK_PATHS);
 	if (pandocPath) {
-		return { status: "ready", message: `pandoc already installed at ${pandocPath}` };
+		return { status: "ready", message: `pandoc 已安裝於 ${pandocPath}` };
 	}
 
 	if (process.platform === "darwin") {
@@ -18,9 +18,9 @@ export function setupPreviewDependencies(): PreviewSetupResult {
 		if (brewPath) {
 			const result = spawnSync(brewPath, ["install", "pandoc"], { stdio: "inherit" });
 			if (result.status !== 0) {
-				throw new Error("Failed to install pandoc via Homebrew.");
+				throw new Error("透過 Homebrew 安裝 pandoc 失敗。");
 			}
-			return { status: "installed", message: "Preview dependency installed: pandoc" };
+			return { status: "installed", message: "預覽相依套件已安裝：pandoc" };
 		}
 	}
 
@@ -29,7 +29,7 @@ export function setupPreviewDependencies(): PreviewSetupResult {
 		if (wingetPath) {
 			const result = spawnSync(wingetPath, ["install", "--id", "JohnMacFarlane.Pandoc", "-e"], { stdio: "inherit" });
 			if (result.status === 0) {
-				return { status: "installed", message: "Preview dependency installed: pandoc (via winget)" };
+				return { status: "installed", message: "預覽相依套件已安裝：pandoc（透過 winget）" };
 			}
 		}
 	}
@@ -39,13 +39,13 @@ export function setupPreviewDependencies(): PreviewSetupResult {
 		if (aptPath) {
 			const result = spawnSync(aptPath, ["install", "-y", "pandoc"], { stdio: "inherit" });
 			if (result.status === 0) {
-				return { status: "installed", message: "Preview dependency installed: pandoc (via apt)" };
+				return { status: "installed", message: "預覽相依套件已安裝：pandoc（透過 apt）" };
 			}
 		}
 	}
 
 	return {
 		status: "manual",
-		message: "pandoc is required for preview support. Install it manually and rerun `feynman --doctor`.",
+		message: "預覽功能需要 pandoc。請手動安裝後重新執行 `feynman --doctor`。",
 	};
 }

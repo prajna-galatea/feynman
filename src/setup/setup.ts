@@ -31,10 +31,10 @@ type SetupOptions = {
 };
 
 function printNonInteractiveSetupGuidance(): void {
-	printInfo("Non-interactive terminal. Use explicit commands:");
+	printInfo("非互動式終端機。請改用明確指令：");
 	printInfo("  feynman model login <provider>");
 	printInfo("  feynman model set <provider/model>");
-	printInfo("  # or configure API keys via env vars/auth.json and rerun `feynman model list`");
+	printInfo("  # 或透過環境變數／auth.json 設定 API 金鑰後重新執行 `feynman model list`");
 	printInfo("  feynman alpha login");
 	printInfo("  feynman doctor");
 }
@@ -44,7 +44,7 @@ function summarizePackageSources(sources: string[]): string {
 		return sources.join(", ");
 	}
 
-	return `${sources.slice(0, 3).join(", ")} +${sources.length - 3} more`;
+	return `${sources.slice(0, 3).join(", ")} 等共 +${sources.length - 3} 個`;
 }
 
 async function maybeInstallBundledPackages(options: SetupOptions): Promise<void> {
@@ -53,42 +53,42 @@ async function maybeInstallBundledPackages(options: SetupOptions): Promise<void>
 	const userMissing = missing.filter((entry) => entry.scope === "user").map((entry) => entry.source);
 	const projectMissing = missing.filter((entry) => entry.scope === "project").map((entry) => entry.source);
 
-	printSection("Packages");
+	printSection("套件");
 	if (bundled.length > 0) {
-		printInfo(`Bundled research packages ready: ${summarizePackageSources(bundled.map((entry) => entry.source))}`);
+		printInfo(`內建研究套件已就緒：${summarizePackageSources(bundled.map((entry) => entry.source))}`);
 	}
 
 	if (missing.length === 0) {
-		printInfo("No additional package install required.");
+		printInfo("不需要額外安裝套件。");
 		return;
 	}
 
-	printInfo(`Missing packages: ${summarizePackageSources(missing.map((entry) => entry.source))}`);
-	const shouldInstall = await promptConfirm("Install missing Feynman packages now?", true);
+	printInfo(`缺少的套件：${summarizePackageSources(missing.map((entry) => entry.source))}`);
+	const shouldInstall = await promptConfirm("現在安裝缺少的 Feynman 套件嗎？", true);
 	if (!shouldInstall) {
-		printInfo("Skipping package install. Feynman may install missing packages later if needed.");
+		printInfo("略過套件安裝。Feynman 稍後若有需要可能會自行補裝。");
 		return;
 	}
 
 	if (userMissing.length > 0) {
 		try {
 			await installPackageSources(options.workingDir, agentDir, userMissing);
-			printSuccess(`Installed bundled packages: ${summarizePackageSources(userMissing)}`);
+			printSuccess(`已安裝內建套件：${summarizePackageSources(userMissing)}`);
 		} catch (error) {
 			const message = error instanceof Error ? error.message : String(error);
 			printInfo(message.includes("No supported package manager found")
-				? "No package manager available for additional installs. The standalone bundle can still run with its shipped packages."
-				: `Package install skipped: ${message}`);
+				? "無可用套件管理工具，無法進行額外安裝。Standalone bundle 仍可使用其隨附的套件運作。"
+				: `已略過套件安裝：${message}`);
 		}
 	}
 
 	if (projectMissing.length > 0) {
 		try {
 			await installPackageSources(options.workingDir, agentDir, projectMissing, { local: true });
-			printSuccess(`Installed project packages: ${summarizePackageSources(projectMissing)}`);
+			printSuccess(`已安裝專案套件：${summarizePackageSources(projectMissing)}`);
 		} catch (error) {
 			const message = error instanceof Error ? error.message : String(error);
-			printInfo(`Project package install skipped: ${message}`);
+			printInfo(`已略過專案套件安裝：${message}`);
 		}
 	}
 }
@@ -101,7 +101,7 @@ async function maybeInstallOptionalPackages(options: SetupOptions): Promise<void
 	}
 
 	const selectedPresets = await promptMultiSelect(
-		"Optional packages",
+		"可選套件",
 		presets.map((preset) => ({
 			value: preset.name,
 			label: preset.name,
@@ -111,7 +111,7 @@ async function maybeInstallOptionalPackages(options: SetupOptions): Promise<void
 	);
 
 	if (selectedPresets.length === 0) {
-		printInfo("No optional packages selected.");
+		printInfo("未選擇任何可選套件。");
 		return;
 	}
 
@@ -122,45 +122,45 @@ async function maybeInstallOptionalPackages(options: SetupOptions): Promise<void
 			await installPackageSources(options.workingDir, agentDir, preset.sources, {
 				persist: true,
 			});
-			printSuccess(`Installed optional preset: ${preset.name}`);
+			printSuccess(`已安裝可選組合：${preset.name}`);
 		} catch (error) {
 			const message = error instanceof Error ? error.message : String(error);
 			printInfo(message.includes("No supported package manager found")
-				? `Skipped optional preset ${preset.name}: no package manager available.`
-				: `Skipped optional preset ${preset.name}: ${message}`);
+				? `已略過可選組合 ${preset.name}：無可用套件管理工具。`
+				: `已略過可選組合 ${preset.name}：${message}`);
 		}
 	}
 }
 
 async function maybeLoginAlpha(): Promise<void> {
 	if (isAlphaLoggedIn()) {
-		printInfo("alphaXiv already configured.");
+		printInfo("alphaXiv 已設定完成。");
 		return;
 	}
 
-	const shouldLogin = await promptConfirm("Connect alphaXiv now?", true);
+	const shouldLogin = await promptConfirm("現在連線 alphaXiv 嗎？", true);
 	if (!shouldLogin) {
-		printInfo("Skipping alphaXiv login for now.");
+		printInfo("暫時略過 alphaXiv 登入。");
 		return;
 	}
 
 	try {
 		await loginAlpha();
-		printSuccess("alphaXiv login complete");
+		printSuccess("alphaXiv 登入完成");
 	} catch (error) {
-		printInfo(`alphaXiv login skipped: ${error instanceof Error ? error.message : String(error)}`);
+		printInfo(`已略過 alphaXiv 登入：${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
 async function maybeInstallPreviewDependencies(): Promise<void> {
 	if (resolveExecutable("pandoc", PANDOC_FALLBACK_PATHS)) {
-		printInfo("Preview support already configured.");
+		printInfo("預覽功能已設定完成。");
 		return;
 	}
 
-	const shouldInstall = await promptConfirm("Install pandoc for preview/export support?", false);
+	const shouldInstall = await promptConfirm("安裝 pandoc 以支援預覽／匯出功能嗎？", false);
 	if (!shouldInstall) {
-		printInfo("Skipping preview dependency install.");
+		printInfo("略過預覽相依套件安裝。");
 		return;
 	}
 
@@ -168,7 +168,7 @@ async function maybeInstallPreviewDependencies(): Promise<void> {
 		const result = setupPreviewDependencies();
 		printSuccess(result.message);
 	} catch (error) {
-		printInfo(`Preview setup skipped: ${error instanceof Error ? error.message : String(error)}`);
+		printInfo(`已略過預覽設定：${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -179,7 +179,7 @@ export async function runSetup(options: SetupOptions): Promise<void> {
 	}
 
 	try {
-		await promptIntro("Feynman setup");
+		await promptIntro("Feynman 設定");
 		await runModelSetup(options.settingsPath, options.authPath);
 		await maybeInstallBundledPackages(options);
 		await maybeInstallOptionalPackages(options);
@@ -198,19 +198,19 @@ export async function runSetup(options: SetupOptions): Promise<void> {
 			getAvailableModelRecords(options.authPath),
 			getCurrentModelSpec(options.settingsPath),
 		);
-		printSection("Ready");
-		printInfo(`Model: ${getCurrentModelSpec(options.settingsPath) ?? "not set"}`);
-		printInfo(`alphaXiv: ${isAlphaLoggedIn() ? "configured" : "not configured"}`);
-		printInfo(`Preview: ${resolveExecutable("pandoc", PANDOC_FALLBACK_PATHS) ? "configured" : "not configured"}`);
-		printInfo(`Web: ${getPiWebAccessStatus().routeLabel}`);
+		printSection("就緒");
+		printInfo(`模型：${getCurrentModelSpec(options.settingsPath) ?? "尚未設定"}`);
+		printInfo(`alphaXiv：${isAlphaLoggedIn() ? "已設定" : "尚未設定"}`);
+		printInfo(`預覽：${resolveExecutable("pandoc", PANDOC_FALLBACK_PATHS) ? "已設定" : "尚未設定"}`);
+		printInfo(`網路存取：${getPiWebAccessStatus().routeLabel}`);
 		if (modelStatus.recommended && !modelStatus.currentValid) {
-			printInfo(`Recommended model: ${modelStatus.recommended}`);
+			printInfo(`建議模型：${modelStatus.recommended}`);
 		}
 
-		await promptOutro("Feynman is ready");
+		await promptOutro("Feynman 已就緒");
 	} catch (error) {
 		if (error instanceof SetupCancelledError) {
-			printInfo("Setup cancelled.");
+			printInfo("已取消設定。");
 			return;
 		}
 
