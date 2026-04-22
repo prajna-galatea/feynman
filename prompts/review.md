@@ -1,5 +1,5 @@
 ---
-description: Simulate an AI research peer review with likely objections, severity, and a concrete revision plan.
+description: 模擬 AI 研究同儕審查，列出可能異議、嚴重程度與具體修訂計畫。
 args: <artifact>
 section: Research Workflows
 topLevelCli: true

@@ -1,5 +1,5 @@
 ---
-description: Summarize any URL, local file, or PDF using the RLM pattern — source stored on disk, never injected raw into context.
+description: 以 RLM 模式摘要任何 URL、本地檔案或 PDF——來源存於磁碟，不直接注入上下文。
 args: <source> [--window-size <chars>] [--overlap <chars>] [--tier1-threshold <chars>] [--tier2-threshold <chars>]
 section: Research Workflows
 topLevelCli: true

@@ -1,5 +1,5 @@
 ---
-description: Turn research findings into a polished paper-style draft with equations, sections, and explicit claims.
+description: 將研究發現轉為精煉的論文風格草稿，含公式、章節與明確主張。
 args: <topic>
 section: Research Workflows
 topLevelCli: true

@@ -1,5 +1,5 @@
 ---
-description: Compare a paper's claims against its public codebase and identify mismatches, omissions, and reproducibility risks.
+description: 將論文主張與其公開程式庫比對，找出不一致、遺漏與可複現性風險。
 args: <item>
 section: Research Workflows
 topLevelCli: true

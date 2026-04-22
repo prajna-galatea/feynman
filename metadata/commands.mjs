@@ -35,19 +35,19 @@ export function readPromptSpecs(appRoot) {
 }
 
 export const extensionCommandSpecs = [
-	{ name: "capabilities", args: "", section: "專案與會話", description: "顯示已安裝套件、發現入口與執行時的能力計數。", publicDocs: true },
-	{ name: "commands", args: "", section: "專案與會話", description: "瀏覽所有可用的斜線指令（內建與套件）。", publicDocs: true },
-	{ name: "help", args: "", section: "專案與會話", description: "以分組方式顯示 Feynman 指令，並在編輯器預填所選指令。", publicDocs: true },
-	{ name: "feynman-model", args: "", section: "專案與會話", description: "開啟 Feynman 模型選單（主模型 + 各子代理覆寫）。", publicDocs: true },
-	{ name: "init", args: "", section: "專案與會話", description: "為研究專案初始化 AGENTS.md 與會話日誌資料夾。", publicDocs: true },
-	{ name: "outputs", args: "", section: "專案與會話", description: "瀏覽所有研究產出（papers、outputs、experiments、notes）。", publicDocs: true },
-	{ name: "service-tier", args: "", section: "專案與會話", description: "檢視或設定支援模型的服務層級（service tier）覆寫值。", publicDocs: true },
-	{ name: "tools", args: "", section: "專案與會話", description: "瀏覽所有可呼叫工具與其來源、參數摘要。", publicDocs: true },
+	{ name: "capabilities", args: "", section: "Project & Session", description: "顯示已安裝套件、發現入口與執行時的能力計數。", publicDocs: true },
+	{ name: "commands", args: "", section: "Project & Session", description: "瀏覽所有可用的斜線指令（內建與套件）。", publicDocs: true },
+	{ name: "help", args: "", section: "Project & Session", description: "以分組方式顯示 Feynman 指令，並在編輯器預填所選指令。", publicDocs: true },
+	{ name: "feynman-model", args: "", section: "Project & Session", description: "開啟 Feynman 模型選單（主模型 + 各子代理覆寫）。", publicDocs: true },
+	{ name: "init", args: "", section: "Project & Session", description: "為研究專案初始化 AGENTS.md 與會話日誌資料夾。", publicDocs: true },
+	{ name: "outputs", args: "", section: "Project & Session", description: "瀏覽所有研究產出（papers、outputs、experiments、notes）。", publicDocs: true },
+	{ name: "service-tier", args: "", section: "Project & Session", description: "檢視或設定支援模型的服務層級（service tier）覆寫值。", publicDocs: true },
+	{ name: "tools", args: "", section: "Project & Session", description: "瀏覽所有可呼叫工具與其來源、參數摘要。", publicDocs: true },
 ];
 
 export const livePackageCommandGroups = [
 	{
-		title: "代理與委派",
+		title: "Agents & Delegation",
 		commands: [
 			{ name: "agents", usage: "/agents" },
 			{ name: "run", usage: "/run <agent> <task>" },
@@ -56,7 +56,7 @@ export const livePackageCommandGroups = [
 		],
 	},
 	{
-		title: "內建套件指令",
+		title: "Bundled Package Commands",
 		commands: [
 			{ name: "ps", usage: "/ps" },
 			{ name: "schedule-prompt", usage: "/schedule-prompt" },

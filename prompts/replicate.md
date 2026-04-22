@@ -1,5 +1,5 @@
 ---
-description: Plan or execute a replication workflow for a paper, claim, or benchmark.
+description: 為論文、主張或基準測試規劃或執行複現工作流程。
 args: <paper>
 section: Research Workflows
 topLevelCli: true

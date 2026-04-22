@@ -1,5 +1,5 @@
 ---
-description: Autonomous experiment loop — try ideas, measure results, keep what works, discard what doesn't, repeat.
+description: 自主實驗迴圈——嘗試想法、量測結果、保留可行方案、捨棄失效方案，循環往復。
 args: <idea>
 section: Research Workflows
 topLevelCli: true

@@ -1,5 +1,5 @@
 ---
-description: Set up a recurring or deferred research watch on a topic, company, paper area, or product surface.
+description: 針對主題、公司、論文領域或產品面向，設定週期性或延遲性的研究監看。
 args: <topic>
 section: Research Workflows
 topLevelCli: true

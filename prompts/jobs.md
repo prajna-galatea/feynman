@@ -1,5 +1,5 @@
 ---
-description: Inspect active background research work, including running processes and scheduled follow-ups.
+description: 檢視目前進行中的背景研究工作，包含執行中程序與已排程的後續任務。
 section: Project & Session
 topLevelCli: true
 ---

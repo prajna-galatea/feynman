@@ -1,5 +1,5 @@
 ---
-description: Run a literature review on a topic using paper search and primary-source synthesis.
+description: 針對主題進行文獻回顧，結合論文搜尋與原始資料綜整。
 args: <topic>
 section: Research Workflows
 topLevelCli: true

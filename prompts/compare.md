@@ -1,5 +1,5 @@
 ---
-description: Compare multiple sources on a topic and produce a source-grounded matrix of agreements, disagreements, and confidence.
+description: 針對主題比對多個來源，產出以原始資料為依據的共識、分歧與信心度矩陣。
 args: <topic>
 section: Research Workflows
 topLevelCli: true

@@ -1,5 +1,5 @@
 ---
-description: Run a thorough, source-heavy investigation on a topic and produce a durable research brief with inline citations.
+description: 對主題進行徹底且重視來源的深入調查，產出附行內引用的可留存研究簡報。
 args: <topic>
 section: Research Workflows
 topLevelCli: true

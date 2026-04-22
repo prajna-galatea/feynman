@@ -1,5 +1,5 @@
 ---
-description: Write a durable session log with completed work, findings, open questions, and next steps.
+description: 撰寫可留存的會話日誌，包含已完成工作、研究發現、未解問題與後續步驟。
 section: Project & Session
 topLevelCli: true
 ---
