@@ -93,13 +93,13 @@ function formatRouteLabel(provider: PiWebSearchProvider): string {
 function formatRouteNote(provider: PiWebSearchProvider): string {
 	switch (provider) {
 		case "perplexity":
-			return "Pi web-access will use Perplexity for search.";
+			return "Pi web-access 將使用 Perplexity 進行搜尋。";
 		case "exa":
-			return "Pi web-access will use Exa for search.";
+			return "Pi web-access 將使用 Exa 進行搜尋。";
 		case "gemini":
-			return "Pi web-access will use Gemini API or Gemini Browser.";
+			return "Pi web-access 將使用 Gemini API 或 Gemini Browser。";
 		default:
-			return "Pi web-access will try Perplexity, then Exa, then Gemini API, then Gemini Browser.";
+			return "Pi web-access 將依序嘗試 Perplexity、Exa、Gemini API、Gemini Browser。";
 	}
 }
 
@@ -135,21 +135,21 @@ export function getPiWebAccessStatus(
 export function formatPiWebAccessDoctorLines(
 	status: PiWebAccessStatus = getPiWebAccessStatus(),
 ): string[] {
-	const configPathSuffix = status.configExists ? "" : " (not created yet)";
+	const configPathSuffix = status.configExists ? "" : "（尚未建立）";
 	const lines = [
-		"web access: pi-web-access",
-		`  search route: ${status.routeLabel}`,
-		`  request route: ${status.requestProvider}`,
-		`  search workflow: ${status.workflow}`,
-		`  perplexity api: ${status.perplexityConfigured ? "configured" : "not configured"}`,
-		`  exa api: ${status.exaConfigured ? "configured" : "not configured"}`,
-		`  gemini api: ${status.geminiApiConfigured ? "configured" : "not configured"}`,
-		`  browser profile: ${status.chromeProfile ?? "default Chromium profile"}`,
-		`  config path: ${status.configPath}${configPathSuffix}`,
-		`  note: ${status.note}`,
+		"網路存取：pi-web-access",
+		`  搜尋路由：${status.routeLabel}`,
+		`  請求路由：${status.requestProvider}`,
+		`  搜尋流程：${status.workflow}`,
+		`  Perplexity API：${status.perplexityConfigured ? "已設定" : "尚未設定"}`,
+		`  Exa API：${status.exaConfigured ? "已設定" : "尚未設定"}`,
+		`  Gemini API：${status.geminiApiConfigured ? "已設定" : "尚未設定"}`,
+		`  瀏覽器設定檔：${status.chromeProfile ?? "預設 Chromium 設定檔"}`,
+		`  設定檔路徑：${status.configPath}${configPathSuffix}`,
+		`  備註：${status.note}`,
 	];
 	if (!status.configExists) {
-		lines.push("  hint: run `feynman search set <auto|perplexity|exa|gemini> [api-key]` to configure web search");
+		lines.push("  提示：執行 `feynman search set <auto|perplexity|exa|gemini> [api-key]` 以設定網路搜尋");
 	}
 	return lines;
 }

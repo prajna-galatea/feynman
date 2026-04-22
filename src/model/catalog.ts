@@ -284,18 +284,18 @@ export function buildModelStatusSnapshotFromRecords(
 
 	const guidance: string[] = [];
 	if (available.length === 0) {
-		guidance.push("No authenticated Pi models are available yet.");
+		guidance.push("目前尚無已認證的 Pi 模型可用。");
 		guidance.push(
-			"Run `feynman model login <provider>` (OAuth) or configure an API key (env var, auth.json, or models.json for custom providers).",
+			"請執行 `feynman model login <provider>`（OAuth）或設定 API 金鑰（環境變數、auth.json，或自訂供應商的 models.json）。",
 		);
-		guidance.push("After auth is in place, rerun `feynman model list` or `feynman setup model`.");
+		guidance.push("認證設定完成後，重新執行 `feynman model list` 或 `feynman setup model`。");
 	} else if (!current) {
-		guidance.push(`No default research model is set. Recommended: ${recommended?.spec}.`);
-		guidance.push("Run `feynman model set <provider/model>` or `feynman setup model`.");
+		guidance.push(`尚未設定預設研究模型。建議：${recommended?.spec}。`);
+		guidance.push("請執行 `feynman model set <provider/model>` 或 `feynman setup model`。");
 	} else if (!currentValid) {
-		guidance.push(`Configured default model is unavailable: ${current}.`);
+		guidance.push(`目前設定的預設模型無法使用：${current}。`);
 		if (recommended) {
-			guidance.push(`Switch to the current research recommendation: ${recommended.spec}.`);
+			guidance.push(`建議切換至目前的研究建議模型：${recommended.spec}。`);
 		}
 	}
 

@@ -14,18 +14,18 @@ const PROVIDER_API_KEY_FIELDS: Partial<Record<PiWebSearchProvider, keyof PiWebAc
 };
 
 export function printSearchStatus(status = getPiWebAccessStatus()): void {
-	const configPathSuffix = status.configExists ? "" : " (not created yet)";
-	printInfo("Managed by: pi-web-access");
-	printInfo(`Search route: ${status.routeLabel}`);
-	printInfo(`Request route: ${status.requestProvider}`);
-	printInfo(`Search workflow: ${status.workflow}`);
-	printInfo(`Perplexity API configured: ${status.perplexityConfigured ? "yes" : "no"}`);
-	printInfo(`Exa API configured: ${status.exaConfigured ? "yes" : "no"}`);
-	printInfo(`Gemini API configured: ${status.geminiApiConfigured ? "yes" : "no"}`);
-	printInfo(`Browser profile: ${status.chromeProfile ?? "default Chromium profile"}`);
-	printInfo(`Config path: ${status.configPath}${configPathSuffix}`);
+	const configPathSuffix = status.configExists ? "" : "（尚未建立）";
+	printInfo("管理者：pi-web-access");
+	printInfo(`搜尋路由：${status.routeLabel}`);
+	printInfo(`請求路由：${status.requestProvider}`);
+	printInfo(`搜尋流程：${status.workflow}`);
+	printInfo(`Perplexity API：${status.perplexityConfigured ? "已設定" : "尚未設定"}`);
+	printInfo(`Exa API：${status.exaConfigured ? "已設定" : "尚未設定"}`);
+	printInfo(`Gemini API：${status.geminiApiConfigured ? "已設定" : "尚未設定"}`);
+	printInfo(`瀏覽器設定檔：${status.chromeProfile ?? "預設 Chromium 設定檔"}`);
+	printInfo(`設定檔路徑：${status.configPath}${configPathSuffix}`);
 	if (!status.configExists) {
-		printInfo("Not configured yet. Run one of:");
+		printInfo("尚未設定。請擇一執行：");
 		printInfo("  feynman search set auto");
 		printInfo("  feynman search set perplexity <api-key>");
 		printInfo("  feynman search set exa <api-key>");
@@ -35,10 +35,10 @@ export function printSearchStatus(status = getPiWebAccessStatus()): void {
 
 export function setSearchProvider(provider: PiWebSearchProvider, apiKey?: string): void {
 	if (!SEARCH_PROVIDERS.includes(provider)) {
-		throw new Error(`Usage: feynman search set <${SEARCH_PROVIDERS.join("|")}> [api-key]`);
+		throw new Error(`用法：feynman search set <${SEARCH_PROVIDERS.join("|")}> [api-key]`);
 	}
 	if (apiKey !== undefined && provider === "auto") {
-		throw new Error("The auto provider does not use an API key. Usage: feynman search set auto");
+		throw new Error("auto 供應商不使用 API 金鑰。用法：feynman search set auto");
 	}
 
 	const updates: Partial<Record<keyof PiWebAccessConfig, unknown>> = {
@@ -54,14 +54,14 @@ export function setSearchProvider(provider: PiWebSearchProvider, apiKey?: string
 	savePiWebAccessConfig(updates);
 
 	const status = getPiWebAccessStatus();
-	console.log(`Web search provider set to ${status.routeLabel}.`);
-	console.log(`Config path: ${status.configPath}`);
+	console.log(`網路搜尋供應商已設為 ${status.routeLabel}。`);
+	console.log(`設定檔路徑：${status.configPath}`);
 }
 
 export function clearSearchConfig(): void {
 	savePiWebAccessConfig({ provider: undefined, searchProvider: undefined, route: undefined, workflow: "none" });
 
 	const status = getPiWebAccessStatus();
-	console.log(`Web search provider reset to ${status.routeLabel}.`);
-	console.log(`Config path: ${status.configPath}`);
+	console.log(`網路搜尋供應商已重設為 ${status.routeLabel}。`);
+	console.log(`設定檔路徑：${status.configPath}`);
 }
